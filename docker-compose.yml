@@ -1,0 +1,14 @@
+version: '3.3'
+services:
+  # puppeteer:
+  #   build:
+  #     context: scrapper/
+  #     dockerfile: Dockerfile
+  panda_proxy:
+    ports:
+      - "4000:4000"
+    build:
+      context: panda_proxy/
+      dockerfile: Dockerfile
+    environment:
+        - PANDASCORE_AUTH_TOKEN=${PANDASCORE_AUTH_TOKEN}
