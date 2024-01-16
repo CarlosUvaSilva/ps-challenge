@@ -12,3 +12,15 @@ services:
       dockerfile: Dockerfile
     environment:
         - PANDASCORE_AUTH_TOKEN=${PANDASCORE_AUTH_TOKEN}
+
+  frontend:
+    build:
+      context: panda_frontend/
+      dockerfile: Dockerfile
+    volumes:
+      - ./panda_frontend/:/react-docker:delegated
+      - /panda_frontend/node_modules
+    ports:
+      - 3000:3000
+    environment:
+      - CHOKIDAR_USEPOLLING=true
