@@ -1,0 +1,4 @@
+.env
+
+scrapper/node_modules
+scrapper/.env
