@@ -1,0 +1,2 @@
+- `node main.mjs`
+- `docker run --env PANDASCORE_AUTH_TOKEN="x9y7IvOs9tO223w8NiMbkXVsPk2V0pD7WqS84BEY48kpbXD5-Qw" -p 4000:4000 proxy`
