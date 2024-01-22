@@ -1,0 +1,13 @@
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.header {
+  background-color: #f2f2f2;
+}
+
+.cell {
+  border: 1px solid #ddd;
+  padding: 8px;
+}

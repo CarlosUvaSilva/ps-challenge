@@ -3,7 +3,7 @@ FROM node:20.8.0-alpine
 # Set the working directory
 WORKDIR /react-docker
 # Copy app dependencies to container
-COPY ./package*.json ./
+COPY ./package.json ./
 # Add `/app/node_modules/.bin` to $PATH
 ENV PATH /app/node_modules/.bin:$PATH
 # Install dependencies
