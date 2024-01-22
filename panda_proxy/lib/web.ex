@@ -1,7 +1,9 @@
 defmodule PandaProxy.Web do
   use Plug.Router
+
   import Plug.Conn
 
+  plug CORSPlug, origin: "*"
   plug :match
   plug :dispatch
 
