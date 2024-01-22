@@ -12,33 +12,21 @@ defmodule PandaProxy.Web do
   end
 
   get "/upcoming_matches" do
-    matches = fetch_upcoming_matches()
-    send_resp(conn, 200, matches)
-    # case fetch_upcoming_matches() do
-    # json_string when is_binary(json_string) ->
-    #   send_resp(conn, 200, json_string)
+    # Fetch and parse the query parameters
+    conn = fetch_query_params(conn)
+    query_params = conn.query_params
+    team_param = get_in(query_params, ["team"])
 
-    # _ ->
-    #   # Handle unexpected cases (if any)
-    #   send_resp(conn, 500, Jason.encode!(%{error: "Internal server error"}))
+    matches = fetch_upcoming_matches(team_param)
+    send_resp(conn, 200, matches)
   end
 
   match _ do
     send_resp(conn, 404, "Not Found")
   end
 
-  # def render_matches do
-  #   case upcoming_matches() do
-  #     {:ok, list} ->
-  #       {:ok, list}
-
-  #     {:error, reason} ->
-  #       Jason.encode!(%{error: reason})
-  #   end
-  # end
-
-  defp fetch_upcoming_matches do
-    case PandaProxy.render_matches() do
+  defp fetch_upcoming_matches(team_param) do
+    case PandaProxy.render_matches(team_param) do
       {:ok, list} ->
         list
 

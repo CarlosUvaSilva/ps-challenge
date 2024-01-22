@@ -8,12 +8,13 @@ defmodule PandaProxy do
 
   @api_url "https://api.pandascore.co/lol/matches/upcoming"
   @auth_token System.get_env("PANDASCORE_AUTH_TOKEN")
+  # @auth_token "x9y7IvOs9tO223w8NiMbkXVsPk2V0pD7WqS84BEY48kpbXD5-Qw"
 
   @doc """
   Renders the fetched list.
   """
 
-  def render_matches do
+  def render_matches(team_filter \\ nil) do
     # case upcoming_matches() do
     #   {:ok, list} ->
     #     {:ok, Jason.encode!(list)}
@@ -22,7 +23,7 @@ defmodule PandaProxy do
     #     Jason.encode!(%{error: reason})
     # end
     try do
-      matches = upcoming_matches()
+      matches = upcoming_matches(team_filter)
       {:ok, Jason.encode!(matches)}
     rescue
       _ -> {:error, "Error"}
@@ -33,10 +34,11 @@ defmodule PandaProxy do
   @doc """
   Fetches a list from the API.
   """
-  def upcoming_matches do
+  def upcoming_matches(team_filter \\ nil) do
     params = %{
       "sort" => "begin_at",
-      "per_page" => "5"
+      "per_page" => "5",
+      "filter[opponent_id]" => team_filter,
     }
 
     full_url = build_url(@api_url, params)
@@ -58,7 +60,8 @@ defmodule PandaProxy do
   end
 
   defp build_url(base_url, params) when is_map(params) do
-    query_string = URI.encode_query(params)
+    filtered_params = Enum.filter(params, fn {_, v} -> !is_nil(v) end)
+    query_string = URI.encode_query(filtered_params)
     if query_string == "", do: base_url, else: "#{base_url}?#{query_string}"
   end
 
