@@ -1,8 +1,8 @@
-defmodule PandaProxyTest do
+defmodule PandaTest do
   use ExUnit.Case
-  doctest PandaProxy
+  doctest Panda
 
   test "greets the world" do
-    assert PandaProxy.hello() == :world
+    assert Panda.hello() == :world
   end
 end

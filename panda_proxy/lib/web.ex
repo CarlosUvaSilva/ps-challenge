@@ -1,4 +1,4 @@
-defmodule PandaProxy.Web do
+defmodule Panda.Web do
   use Plug.Router
 
   import Plug.Conn
@@ -26,7 +26,7 @@ defmodule PandaProxy.Web do
   end
 
   defp fetch_upcoming_matches(team_param) do
-    case PandaProxy.render_matches(team_param) do
+    case Panda.render_matches(team_param) do
       {:ok, list} ->
         list
 

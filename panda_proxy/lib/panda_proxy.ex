@@ -1,4 +1,4 @@
-defmodule PandaProxy do
+defmodule Panda do
   @moduledoc """
   A client for interacting with a Pandascore API.
   """
@@ -8,7 +8,6 @@ defmodule PandaProxy do
 
   @api_url "https://api.pandascore.co/lol/matches/upcoming"
   @auth_token System.get_env("PANDASCORE_AUTH_TOKEN")
-  # @auth_token "x9y7IvOs9tO223w8NiMbkXVsPk2V0pD7WqS84BEY48kpbXD5-Qw"
 
   @doc """
   Renders the fetched list.

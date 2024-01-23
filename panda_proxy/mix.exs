@@ -1,4 +1,4 @@
-defmodule PandaProxy.MixProject do
+defmodule Panda.MixProject do
   use Mix.Project
 
   def project do
@@ -15,7 +15,7 @@ defmodule PandaProxy.MixProject do
   def application do
     [
       extra_applications: [:logger],
-      mod: {PandaProxy.Application, []}
+      mod: {Panda.Application, []}
     ]
   end
 
