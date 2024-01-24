@@ -10,6 +10,7 @@ defmodule Panda.Application do
     children = [
       # Starts a worker by calling: Panda.Worker.start_link(arg)
       # {Panda.Worker, arg}
+      Panda.Repo,
       {Plug.Cowboy, scheme: :http, plug: Panda.Web, options: [port: 4000]}
 
     ]
