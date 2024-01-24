@@ -64,7 +64,12 @@ defmodule Panda do
       {:ok, data} ->
         matches = Enum.flat_map(data, fn game ->
           if valid_game?(game) do
-            [extract_match_details(game)]
+            db_attrs = extract_match_db_details(game)
+            case Panda.Matches.create_match(db_attrs) do
+              {:ok, _match} -> [extract_match_details(game)]
+              {:error, changeset} -> IO.inspect(changeset, label: "Failed to save match")
+            end
+
           else
             []
           end
@@ -81,5 +86,9 @@ defmodule Panda do
 
   defp extract_match_details(%{"scheduled_at" => scheduled_at, "id" => id, "name" => name}) do
     %{"scheduled_at" => scheduled_at, "id" => id, "name" => name}
+  end
+
+  defp extract_match_db_details(%{"scheduled_at" => scheduled_at, "id" => id, "name" => name}) do
+    %{"scheduled_at" => scheduled_at, "ps_id" => id, "name" => name}
   end
 end
