@@ -12,6 +12,7 @@ services:
       dockerfile: Dockerfile
     environment:
         - PANDASCORE_AUTH_TOKEN=${PANDASCORE_AUTH_TOKEN}
+    network_mode: "host"
 
   frontend:
     build:

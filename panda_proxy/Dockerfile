@@ -16,5 +16,8 @@ RUN mix deps.get
 # Copy the rest of your application's code
 COPY . .
 
+# RUN mix ecto.migrate
+
 # The command to run when the container starts
-CMD ["mix", "run", "--no-halt"]
+# CMD ["mix", "run", "--no-halt"]
+ENTRYPOINT [ "./entrypoint.sh" ]
