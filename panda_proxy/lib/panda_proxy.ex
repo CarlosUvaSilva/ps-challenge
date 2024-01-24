@@ -12,20 +12,15 @@ defmodule Panda do
   @doc """
   Renders the fetched list.
   """
-
   def render_matches(team_filter \\ nil) do
-    # case upcoming_matches() do
-    #   {:ok, list} ->
-    #     {:ok, Jason.encode!(list)}
-
-    #   {:error, reason} ->
-    #     Jason.encode!(%{error: reason})
-    # end
     try do
       matches = upcoming_matches(team_filter)
       {:ok, Jason.encode!(matches)}
     rescue
-      _ -> {:error, "Error"}
+      error in Jason.EncodeError ->
+        {:error, "Failed to encode matches: #{error.message}"}
+      error in RuntimeError ->
+        {:error, "Runtime error: #{error.message}"}
     end
   end
 
@@ -54,7 +49,7 @@ defmodule Panda do
         {:error, "Request failed with status code #{status_code}"}
 
       {:error, %Error{reason: reason}} ->
-        {:error, "Request error: #{reason}"}
+        {:error, "HTTP request failed: #{reason}"}
     end
   end
 
@@ -64,18 +59,21 @@ defmodule Panda do
     if query_string == "", do: base_url, else: "#{base_url}?#{query_string}"
   end
 
-  @doc """
-  Processes the API response to extract match details.
-  """
   defp process_games(response) do
     case Jason.decode(response) do
-    {:ok, data} ->
-      matches = Enum.filter_map(data, &valid_game?(&1), &extract_match_details/1)
-      {:ok, matches}
+      {:ok, data} ->
+        matches = Enum.flat_map(data, fn game ->
+          if valid_game?(game) do
+            [extract_match_details(game)]
+          else
+            []
+          end
+        end)
+        {:ok, matches}
 
-    {:error, _} ->
-      {:error, "Invalid JSON format"}
-  end
+      {:error, reason} ->
+        {:error, "Invalid JSON format: #{reason}"}
+    end
   end
 
   defp valid_game?(%{"scheduled_at" => _scheduled_at, "id" => _id, "name" => _name}), do: true
