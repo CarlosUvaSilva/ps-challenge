@@ -1,4 +1,4 @@
-use Mix.Config
+import Config
 
 config :panda_proxy,
   ecto_repos: [Panda.Repo]
