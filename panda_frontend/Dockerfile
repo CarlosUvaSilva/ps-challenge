@@ -1,12 +1,12 @@
-# Pull the base image
-FROM node:20.8.0-alpine
-# Set the working directory
-WORKDIR /react-docker
-# Copy app dependencies to container
-COPY ./package.json ./
-# Add `/app/node_modules/.bin` to $PATH
-ENV PATH /app/node_modules/.bin:$PATH
-# Install dependencies
+FROM node:20.8-alpine
+WORKDIR /app
+
+COPY package*.json ./
+
 RUN npm install
-# Deploy app for local development
-CMD npm start --host 0.0.0.0 --port 3000 --disableHostCheck true
+
+COPY . .
+
+EXPOSE 3000
+
+CMD ["npm", "start"]
