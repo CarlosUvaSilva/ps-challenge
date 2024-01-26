@@ -1,5 +1,6 @@
 defmodule PandaProxyTest do
   use ExUnit.Case
+  use Panda.RepoCase
   alias Panda
 
   describe "render_matches/1" do

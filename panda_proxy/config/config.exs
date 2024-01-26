@@ -7,5 +7,7 @@ config :panda_proxy, Panda.Repo,
   database: "pandascore-challenge",
   username: "postgres",
   password: "postgres",
-  hostname: "localhost",
+  hostname: "postgresdb",
   port: 5432
+
+  import_config "#{config_env()}.exs"
