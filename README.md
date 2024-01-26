@@ -18,6 +18,8 @@
 - The Elixir API has some simple tests that can be run with `PANDASCORE_AUTH_TOKEN=XXXXXX mix test`
 
 # Run Iex interpreter by typing iex -S mix
-- if you want to run the Elixir interpreter use
-`PANDASCORE_AUTH_TOKEN=XXXXX iex -S mix
-`
+If you want to run the Elixir interpreter first you need to first setup the database
+- `mix ecto.create`
+- `mix ecto.migrate`
+
+Then run the command `PANDASCORE_AUTH_TOKEN=XXXXX iex -S mix`
