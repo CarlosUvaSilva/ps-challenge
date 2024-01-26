@@ -1,9 +1,11 @@
 version: '3.3'
+
 services:
   # puppeteer:
   #   build:
   #     context: scrapper/
   #     dockerfile: Dockerfile
+
   panda_proxy:
     ports:
       - "4000:4000"
@@ -12,16 +14,29 @@ services:
       dockerfile: Dockerfile
     environment:
         - PANDASCORE_AUTH_TOKEN=${PANDASCORE_AUTH_TOKEN}
-    network_mode: "host"
+        - MIX_ENV=prod
 
   frontend:
     build:
       context: panda_frontend/
       dockerfile: Dockerfile
-    volumes:
-      - ./panda_frontend/:/react-docker:delegated
-      - /panda_frontend/node_modules
     ports:
       - 3000:3000
+    volumes:
+      - ./panda_frontend:/app
+      - /app/node_modules
     environment:
       - CHOKIDAR_USEPOLLING=true
+
+  postgresdb:
+    image: postgres:16.1-alpine
+    restart: always
+    environment:
+      PGUSER: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval	: 1s
+      timeout: 5s
+      retries: 10
